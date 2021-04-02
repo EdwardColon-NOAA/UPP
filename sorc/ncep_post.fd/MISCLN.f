@@ -94,7 +94,7 @@
                             jsta_2l, jend_2u, MODELNAME, SUBMODELNAME
       use rqstfld_mod, only: iget, lvls, id, iavblfld, lvlsxml
       use grib2_module, only: pset
-      use upp_physics, only: FPVSNEW,CALRH_PW,CALCAPE,CALCAPE2,TVIRTUAL
+      use upp_physics, only: FPVSNEW,CALRH_PW,CALCAPE,CALCAPE2,CALCAPE4,TVIRTUAL
       use gridspec_mod, only: gridtype
 !- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
        implicit none
@@ -128,7 +128,7 @@
                                       RH1D, EGRID1, EGRID2, EGRID3, EGRID4,  &
                                       EGRID5, EGRID6, EGRID7, EGRID8, &
                                       MLCAPE,MLCIN,MLLCL,MUCAPE,MUCIN,MUMIXR, &
-                                      FREEZELVL,MUQ1D,SLCL
+                                      FREEZELVL,MUQ1D,SLCL,THE,MAXTHE
       real, dimension(:,:,:),allocatable :: OMGBND, PWTBND, QCNVBND,   &
                                             PBND,   TBND,   QBND,      &
                                             UBND,   VBND,   RHBND,     &
@@ -148,13 +148,13 @@
       real, dimension(:,:),  allocatable :: USHR1, VSHR1, USHR6, VSHR6, &
                                             MAXWP, MAXWZ, MAXWU, MAXWV, &
                                             MAXWT
-      INTEGER,dimension(:,:),allocatable :: LLOW, LUPP
+      INTEGER,dimension(:,:),allocatable :: LLOW, LUPP, LLOW1, LUPP1
       REAL, dimension(:,:),allocatable   :: CANGLE,ESHR,UVECT,VVECT,&
                                             EFFUST,EFFVST,FSHR,HTSFC,&
                                             ESRH
 !
       integer I,J,jj,L,ITYPE,ISVALUE,LBND,ILVL,IFD,ITYPEFDLVL(NFD),    &
-              iget1, iget2, iget3, LLMH
+              iget1, iget2, iget3, LLMH,imax,jmax,lmax
       real    DPBND,PKL1,PKU1,FAC1,FAC2,PL,TL,QL,QSAT,RHL,TVRL,TVRBLO, &
               ES1,ES2,QS1,QS2,RH1,RH2,ZSF,DEPTH(2),work1,work2,work3, &
               SCINtmp,MUCAPEtmp,MUCINtmp,MLLCLtmp,ESHRtmp,MLCAPEtmp,STP,&
@@ -3532,6 +3532,7 @@
                   HELI(IM,jsta_2l:jend_2u,2))
          allocate(LLOW(IM,jsta_2l:jend_2u),LUPP(IM,jsta_2l:jend_2u),   &
                   CANGLE(IM,jsta_2l:jend_2u))
+         allocate(LLOW1(IM,jsta_2l:jend_2u),LUPP1(IM,jsta_2l:jend_2u))
 
        iget1 = IGET(953)
        iget2 = -1
@@ -3587,6 +3588,58 @@
                   VVECT(IM,jsta_2l:jend_2u),HTSFC(IM,jsta_2l:jend_2u))
          allocate(EFFUST(IM,jsta_2l:jend_2u),EFFVST(IM,jsta_2l:jend_2u),&
                   ESRH(IM,jsta_2l:jend_2u))
+
+           imax=0
+           jmax=0
+           lmax=0
+       
+           DO J=JSTA,JEND
+             DO I=1,IM
+                 MAXTHE(I,J)=0.0
+                 THE(I,J)=0.0
+             ENDDO
+           ENDDO
+           DO L=LM,1,-1
+           DO J=JSTA,JEND
+             DO I=1,IM
+               P1D(I,J)=PMID(I,J,L)
+               T1D(I,J)=T(I,J,L)
+               Q1D(I,J)=Q(I,J,L)
+             ENDDO
+           ENDDO
+           CALL CALTHTE(P1D,T1D,Q1D,EGRID1)
+           DO J=JSTA,JEND
+             DO I=1,IM
+                 THE(I,J)=EGRID1(I,J)
+                 IF(THE(I,J)>=MAXTHE(I,J))THEN
+                    MAXTHE(I,J)=THE(I,J)
+                    imax=I
+                    jmax=J
+                    lmax=L
+                 ENDIF 
+             ENDDO
+           ENDDO
+           ENDDO
+
+
+           DO L=LM,1,-1
+           DO J=JSTA,JEND
+             DO I=1,IM
+               P1D(I,J)=PMID(I,J,L)
+               T1D(I,J)=T(I,J,L)
+               Q1D(I,J)=Q(I,J,L)
+             ENDDO
+           ENDDO
+
+           CALL CALCAPE4(ITYPE,DPBND,P1D,T1D,Q1D,LB2,L,          &
+                         EGRID1,EGRID2,EGRID3,EGRID4,EGRID5,     &
+                         EGRID6,EGRID7,EGRID8)
+
+
+           print *,'L Loop index=',L
+
+           ENDDO !END L Loop
+
 
 !get surface height
         IF(gridtype == 'E')THEN
@@ -4217,6 +4270,8 @@
        if (allocated(heli))  deallocate(heli)
        if (allocated(llow))  deallocate(llow)
        if (allocated(lupp))  deallocate(lupp)
+       if (allocated(llow1))  deallocate(llow1)
+       if (allocated(lupp1))  deallocate(lupp1)
        if (allocated(cangle))deallocate(cangle)
        if (allocated(effust))deallocate(effust)
        if (allocated(effvst))deallocate(effvst)
