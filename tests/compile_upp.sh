@@ -20,12 +20,17 @@ PATHTR=${PATHTR:-$( cd ${MYDIR}/.. && pwd )}
 module use $PATHTR/modulefiles
 modulefile=${MACHINE_ID}
 module load $modulefile
-module list
+# module list
 
 rm -rf build install
 mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=../install -DBUILD_WITH_WRFIO=ON ../..
-make -j6 
+set +x
+module list 2>&1 | tee modules_loaded.list
+set -x
+# cmake -DCMAKE_INSTALL_PREFIX=../install -DBUILD_WITH_WRFIO=ON ../..
+cmake -DCMAKE_INSTALL_PREFIX=../install -DBUILD_WITH_WRFIO=ON ../.. 2>&1 | tee output.cmake
+# make -j6 
+make VERBOSE=1 -j 6 2>&1 | tee output.compile
 make install
 
 rm -rf $PATHTR/exec && mkdir $PATHTR/exec
