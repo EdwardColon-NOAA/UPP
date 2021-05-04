@@ -85,7 +85,7 @@
       use vrbls3d,    only: pmid, uh, vh, t, zmid, zint, pint, alpint, q, omga
       use vrbls3d,    only: catedr,mwt,gtg
       use vrbls2d,    only: pblh, cprate, fis, T500, T700, Z500, Z700,&
-                            teql
+                            teql,ieql
       use masks,      only: lmh
       use params_mod, only: d00, d50, h99999, h100, h1, h1m12, pq0, a2, a3, a4,    &
                             rhmin, rgamog, tfrz, small, g
@@ -4033,25 +4033,6 @@
            ENDDO
 
 !
-!           DO L=LM,1,-1
-!           DO J=JSTA,JEND
-!             DO I=1,IM
-!               P1D(I,J)=PMID(I,J,L)
-!               T1D(I,J)=T(I,J,L)
-!               Q1D(I,J)=Q(I,J,L)
-!             ENDDO
-!           ENDDO
-!
-!           CALL CALCAPE4(ITYPE,DPBND,P1D,T1D,Q1D,LB2,L,          &
-!                         EGRID1,EGRID2,EGRID3,EGRID4,EGRID5,     &
-!                         EGRID6,EGRID7,EGRID8)
-!
-!
-!           print *,'L Loop index=',L
-!
-!           ENDDO !END L Loop
-!
-!
 !get surface height
         IF(gridtype == 'E')THEN
         JVN =  1
@@ -4149,7 +4130,7 @@
             IF (IGET(983)>0) THEN
              DO J=JSTA,JEND
                DO I=1,IM
-                       MIDCAL=INT(LLOW(I,J)+D50*(LUPP(I,J)-LLOW(I,J)))       
+                       MIDCAL=INT(LLOW(I,J)+D50*(IEQL(I,J)-LLOW(I,J)))       
                                                             !mid-layer 
                                                             !vertical
                                                             !index
@@ -4175,7 +4156,7 @@
             IF (IGET(984)>0) THEN
              DO J=JSTA,JEND
                DO I=1,IM
-                       MIDCAL=INT(LLOW(I,J)+D50*(LUPP(I,J)-LLOW(I,J)))
+                       MIDCAL=INT(LLOW(I,J)+D50*(IEQL(I,J)-LLOW(I,J)))
                                                             !mid-layer 
                                                             !vertical
                                                             !index
