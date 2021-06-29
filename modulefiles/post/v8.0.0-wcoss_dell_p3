@@ -25,7 +25,8 @@ module load zlib/1.2.11
 
 # Loading nceplibs modules
 module load g2/3.2.0           
-module load g2tmpl/1.6.0          
+module use -a /usrx/local/nceplibs/dev/NCEPLIBS/modulefiles
+module load g2tmpl/1.10.0
 module load w3nco/2.2.0
 module load bacio/2.0.3
 module load gfsio/1.1.0            

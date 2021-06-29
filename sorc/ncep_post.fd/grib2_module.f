@@ -1242,7 +1242,7 @@
        ifield3(11) = lonstart   !longitude of first grid point
        ifield3(12) = 8          !Resolution and component flags
 ! Jili Dong change grid to earth relative 
-       if (modelname == 'FV3R') then
+       if (modelname == 'FV3R' .OR. modelname == 'RRFS') then
          ifield3(12) = 0          !Resolution and component flags
        endif
 
@@ -1367,7 +1367,7 @@
        ifield3(13) = lonstart_r   !longitude of first grid point
        ifield3(14) = 56         !Resolution and component flags
 ! Jili Dong change grid to earth relative (Matt Pyle)
-       if(modelname=='FV3R') then
+       if(modelname=='FV3R' .OR. modelname=='RRFS') then
          ifield3(14) = 48         !Resolution and component flags
        endif
 

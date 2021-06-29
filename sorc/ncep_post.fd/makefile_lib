@@ -116,7 +116,7 @@ OBJS=	VRBLS2D_mod.o VRBLS3D_mod.o VRBLS4D_mod.o MASKS_mod.o PMICRPH.o SOIL_mod.o
                              GEO_ZENITH_ANGLE.o GFIP3.o GRIDAVG.o CALUPDHEL.o \
 	AllGETHERV_GSD.o MSFPS.o SELECT_CHANNELS.o ALLOCATE_ALL.o \
         gtg_ctlblk.o gtg_indices.o gtg_filter.o gtg_compute.o gtg_config.o map_routines.o gtg_algo.o gtg_smoothseams.o CALVESSEL.o \
-        CALHEL2.o CALCAPE2.o
+        CALHEL2.o CALCAPE2.o pkind.o pmazmin.o
 
 
 .SUFFIXES:	.F .f .o .f90 .c

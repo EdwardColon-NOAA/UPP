@@ -433,7 +433,8 @@
                    FACT = (ALSL(LP)-LOG(PMID(I,J,LL)))/                   &
                           max(1.e-6,(LOG(PMID(I,J,LL))-LOG(PMID(I,J,LL-1))))
                    FACT = max(-10.0,min(FACT, 10.0))
-                 ELSEIF (MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R') THEN
+                 ELSEIF (MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
+                   .OR. MODELNAME == 'RRFS') THEN
                    FACT = (ALSL(LP)-LOG(PMID(I,J,LL)))/ &
                           max(1.e-6,(LOG(PMID(I,J,LL))-LOG(PMID(I,J,LL-1))))
                    FACT = max(-10.0,min(FACT, 10.0))

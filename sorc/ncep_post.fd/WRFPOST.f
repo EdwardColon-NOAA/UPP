@@ -273,7 +273,8 @@
 
         if (me==0) print*,'MODELNAME= ',MODELNAME,'grib=',grib
 !Chuang: If model is GFS, read in flux file name from unit5
-        if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R') then
+        if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
+          .OR. MODELNAME == 'RRFS') then
           read(5,111,end=117) fileNameFlux
           if (me == 0) print*,'first two file names in GFS or FV3= '  &
                                ,trim(fileName),trim(fileNameFlux)
@@ -772,7 +773,7 @@
           ELSE IF(MODELNAME == 'NMM') THEN
             print*,'CALLING INITPOST_NMM TO PROCESS NMM NETCDF OUTPUT'
             CALL INITPOST_NMM
-          ELSE IF (MODELNAME == 'FV3R') THEN
+          ELSE IF (MODELNAME == 'FV3R' .OR. MODELNAME == 'RRFS') THEN
 ! use netcdf library to read output directly
             print*,'CALLING INITPOST_NETCDF'
             CALL INITPOST_NETCDF(ncid3d)

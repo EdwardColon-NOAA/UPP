@@ -101,6 +101,8 @@ list(APPEND LIB_SRC
     params.F
     PARA_RANGE.f
     physcons.f
+    pkind.f
+    pmazmin.f
     PMICRPH.f
     POLEAVG.f
     PROCESS.f
