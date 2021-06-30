@@ -945,7 +945,7 @@
 ! ADD EC,EDIR,ETRANS,ESNOW,SMCDRY,SMCMAX
 ! ONLY OUTPUT NEW LSM FIELDS FOR NMM AND ARW BECAUSE RSM USES OLD SOIL TYPES
       IF (MODELNAME == 'NCAR'.OR. MODELNAME == 'NMM'                  &
-        .OR. MODELNAME == 'FV3R' .OR. MODELNAME == 'RRFS' .OR.        &
+        .OR. MODELNAME == 'FV3R' .OR.        &
          MODELNAME == 'RAPR') THEN
 !       write(0,*)'in surf,isltyp=',maxval(isltyp(1:im,jsta:jend)),   &
 !         minval(isltyp(1:im,jsta:jend)),'qwbs=',maxval(qwbs(1:im,jsta:jend)), &
@@ -2520,8 +2520,7 @@
           ID(18) = IFHR-IFINCR
 	  IF(IFMIN >= 1)ID(18)=IFHR*60+IFMIN-IFINCR
          ENDIF
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-          .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
 !$omp parallel do private(i,j)
            DO J=JSTA,JEND
              DO I=1,IM
@@ -2614,8 +2613,7 @@
           ID(18) = IFHR-IFINCR
           IF(IFMIN >= 1)ID(18)=IFHR*60+IFMIN-IFINCR
          ENDIF
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-          .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R') THEN 
 ! Chuang 3/29/2018: add continuous bucket
 !$omp parallel do private(i,j)
            DO J=JSTA,JEND
@@ -2631,8 +2629,7 @@
          IF (ID(18)<0) ID(18) = 0
          if(grib=='grib2') then
 ! add continuous bucket
-            if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-            .OR. MODELNAME == 'RRFS') then
+            if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
             cfld=cfld+1
             fld_info(cfld)%ifld=IAVBLFLD(IGET(417))
             fld_info(cfld)%ntrange=1
@@ -2672,8 +2669,7 @@
           IF(IFMIN >= 1)ID(18)=IFHR*60+IFMIN-IFINCR
          ENDIF
          IF (ID(18)<0) ID(18) = 0
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-          .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
 !$omp parallel do private(i,j)
            DO J=JSTA,JEND
              DO I=1,IM
@@ -2759,8 +2755,7 @@
           IF(IFMIN >= 1)ID(18)=IFHR*60+IFMIN-IFINCR
          ENDIF
          IF (ID(18)<0) ID(18) = 0
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-          .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
 ! Chuang 3/29/2018: add continuous bucket
 !$omp parallel do private(i,j)
            DO J=JSTA,JEND
@@ -2776,8 +2771,7 @@
 !       write(6,*) 'call gribit...convective precip'
          if(grib=='grib2') then
 ! add continuous bucket
-            if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-             .OR. MODELNAME == 'RRFS') then
+            if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
             cfld=cfld+1
             fld_info(cfld)%ifld=IAVBLFLD(IGET(418))
             fld_info(cfld)%ntrange=1
@@ -2817,8 +2811,7 @@
           IF(IFMIN >= 1)ID(18)=IFHR*60+IFMIN-IFINCR
          ENDIF
          IF (ID(18)<0) ID(18) = 0
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' & 
-           .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
 !$omp parallel do private(i,j)
            DO J=JSTA,JEND
              DO I=1,IM
@@ -2901,8 +2894,7 @@
           IF(IFMIN >= 1)ID(18)=IFHR*60+IFMIN-IFINCR
          ENDIF
          IF (ID(18)<0) ID(18) = 0
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-          .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
 ! Chuang 3/29/2018: add continuous bucket
 !$omp parallel do private(i,j)
            DO J=JSTA,JEND
@@ -2919,8 +2911,7 @@
 !       write(6,*) 'call gribit...grid-scale precip'
          if(grib=='grib2') then
 ! add continuous bucket
-            if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-             .OR. MODELNAME == 'RRFS') then
+            if(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
             cfld=cfld+1
             fld_info(cfld)%ifld=IAVBLFLD(IGET(419))
             fld_info(cfld)%ntrange=1
@@ -5213,7 +5204,7 @@
             DO J=JSTA,JEND
               DO I=1,IM
               GRID1(I,J)=EGRID1(I,J)
-         IF(MODELNAME == 'FV3R' .OR. MODELNAME == 'RRFS') THEN
+         IF(MODELNAME == 'FV3R') THEN
               GRID1(I,J)=SFCUXI(I,J)
          END IF
               ENDDO

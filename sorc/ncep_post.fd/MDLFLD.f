@@ -555,8 +555,8 @@ refl_adj:           IF(REF_10CM(I,J,L)<=DBZmin) THEN
         ENDDO
        END DO  
 
-      ELSE IF(((MODELNAME == 'NMM' .and. GRIDTYPE=='B') .OR. MODELNAME == 'FV3R' & 
-        .OR. MODELNAME == 'RRFS') .and. imp_physics==8)THEN
+      ELSE IF(((MODELNAME == 'NMM' .and. GRIDTYPE=='B') .OR. MODELNAME == 'FV3R') & 
+        .and. imp_physics==8)THEN
        DO L=1,LM
         DO J=JSTA,JEND
          DO I=1,IM
@@ -2801,7 +2801,7 @@ refl_adj:           IF(REF_10CM(I,J,L)<=DBZmin) THEN
 !NMMB does not have composite radar ref in model output
            IF(MODELNAME=='NMM' .and. gridtype=='B' .or.  & 
               MODELNAME=='NCAR'.or.  MODELNAME=='FV3R' .or. &
-              MODELNAME=='RRFS'.or. MODELNAME=='NMM' .and. &
+              MODELNAME=='NMM' .and. &
               gridtype=='E')THEN
 !$omp parallel do private(i,j,l)
               DO J=JSTA,JEND

@@ -1427,7 +1427,7 @@
             DO J=JSTA,JEND
               DO I=1,IM
                 GRID1(I,J)=Z1D(I,J)
-                IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+                IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
                   FREEZELVL(I,J)=GRID1(I,J)
                 ENDIF
               ENDDO
@@ -2927,7 +2927,7 @@
                            / LOG(PMID(I,J,LM)/PMID(I,J,LM-1))
 
         IF (MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-           .OR. MODELNAME == 'RRFS') THEN
+           .OR. MODELNAME == 'FV3R') THEN
                EGRID1(I,J) = LOG(PMID(I,J,LM)/EGRID2(I,J))   &
                            / max(1.e-6,LOG(PMID(I,J,LM)/PMID(I,J,LM-1)))
                EGRID1(I,J) =max(-10.0,min(EGRID1(I,J), 10.0))
@@ -3128,7 +3128,7 @@
                  DO I=1,IM
                    IF(T1D(I,J) < spval) THEN
                      GRID1(I,J) = EGRID1(I,J)
-                     IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+                     IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
                       MLCAPE(I,J)=GRID1(I,J)
                      ENDIF
                    ENDIF
@@ -3165,7 +3165,7 @@
                  DO I=1,IM
                    IF(T1D(I,J) < spval) THEN
                       GRID1(I,J) = - GRID1(I,J)
-                      IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+                      IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
                         MLCIN(I,J) = GRID1(I,J)
                       ENDIF
                    ENDIF
@@ -3196,7 +3196,7 @@
 	       DO J=JSTA,JEND
                DO I=1,IM
                  GRID1(I,J)=EGRID2(I,J)
-                 IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+                 IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
                      MLLCL(I,J) = GRID1(I,J)
                  ENDIF
                ENDDO
@@ -3256,7 +3256,7 @@
            DPBND = 300.E2
            CALL CALCAPE(ITYPE,DPBND,P1D,T1D,Q1D,LB2,EGRID1,     &
                         EGRID2,EGRID3,EGRID4,EGRID5)
-!           IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+!           IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
 !               MUMIXR(I,J) = Q1D(I,J) 
 !           ENDIF
            IF (IGET(584)>0) THEN
@@ -3267,14 +3267,14 @@
                  DO I=1,IM
                    IF(T1D(I,J) < spval) THEN
                       GRID1(I,J) = EGRID1(I,J)
-                      IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+                      IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
                         MUCAPE(I,J) = GRID1(I,J)
                       ENDIF
                    ENDIF
                  ENDDO
                ENDDO
                CALL BOUND(GRID1,D00,H99999)
-!               IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'RRFS') THEN
+!               IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME == 'FV3R') THEN
 !                    CALL BOUND(MUCAPE,D00,H99999)
 !               ENDIF
                if(grib=='grib2') then
@@ -3307,7 +3307,7 @@
                    IF(T1D(I,J) < spval) THEN 
                    GRID1(I,J) = - GRID1(I,J)
                        IF (SUBMODELNAME == 'RTMA' .OR. &
-                           MODELNAME == 'RRFS') THEN
+                           MODELNAME == 'FV3R') THEN
                               MUCAPE(I,J) = GRID1(I,J)
                               MUQ1D(I,J) = Q1D(I,J)
                        ENDIF
@@ -3779,7 +3779,7 @@
 !       EXPAND HRRR CAPE/CIN RELATED VARIABLES
 !       
 !    CAPE AND CINS 0-3KM, FOLLOW ML PROCEDURE WITH HEIGHT 0-3KM
-         IF (MODELNAME=='RRFS') THEN
+         IF (MODELNAME=='FV3R') THEN
          FIELD1=.TRUE.
          FIELD2=.TRUE.
          ELSE
@@ -4008,7 +4008,7 @@
        ENDIF   !953
 
 
-        IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME=='RRFS') THEN  !Start RTMA block
+        IF (SUBMODELNAME == 'RTMA' .OR. MODELNAME=='FV3R') THEN  !Start RTMA block
 
 !EL field allocation
 

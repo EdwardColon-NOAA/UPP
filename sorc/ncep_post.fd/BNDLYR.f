@@ -357,8 +357,7 @@
               WBND(I,J,LBND)    = WH(I,J,L)
             IF(T(I,J,LBND)<spval.and.Q(I,J,LBND)<spval)THEN
               QCNVBND(I,J,LBND) = QCNVG(I,J,L)
-              IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-                .OR. MODELNAME == 'RRFS')THEN
+              IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R') THEN
                 ES   = FPVSNEW(T(I,J,L))
                 ES   = MIN(ES,PM)
                 QSAT = CON_EPS*ES/(PM+CON_EPSM1*ES)

@@ -908,7 +908,7 @@
       ENDIF
 !
       IF ((MODELNAME=='NMM' .AND. GRIDTYPE=='B') .OR. &
-             MODELNAME=='FV3R' .OR. MODELNAME=='RRFS') THEN
+             MODELNAME=='FV3R') THEN
 !nmmb_clds1
 !   
 !-- Initialize low, middle, high, and total cloud cover; 
@@ -1280,7 +1280,7 @@
            ENDDO
 
          ELSE IF (MODELNAME=='NMM'.OR. MODELNAME=='FV3R' &
-           .OR. MODELNAME=='GFS' .OR. MODELNAME=='RRFS')THEN
+           .OR. MODELNAME=='GFS')THEN
            DO J=JSTA,JEND
              DO I=1,IM
 !               EGRID1(I,J)=AMAX1(CFRACL(I,J),
@@ -1319,8 +1319,7 @@
 !     TIME AVERAGED TOTAL CLOUD FRACTION.
       IF (IGET(144) > 0) THEN
 !        GRID1=SPVAL
-        IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-         .OR. MODELNAME == 'RRFS')THEN
+        IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
 !$omp parallel do private(i,j)
           DO J=JSTA,JEND
             DO I=1,IM
@@ -1355,7 +1354,7 @@
           ENDDO
         END IF 
         IF(MODELNAME == 'NMM' .OR. MODELNAME == 'GFS' .OR. &
-           MODELNAME == 'FV3R' .OR. MODELNAME == 'RRFS')THEN
+           MODELNAME == 'FV3R')THEN
           ID(1:25)= 0
           ITCLOD     = NINT(TCLOD)
           IF(ITCLOD /= 0) then
@@ -1414,8 +1413,7 @@
             ENDDO
             ENDDO
            END IF 
-          IF(MODELNAME=='NMM' .or. MODELNAME=='FV3R' &
-            .OR. MODELNAME=='RRFS')THEN
+          IF(MODELNAME=='NMM' .or. MODELNAME=='FV3R')THEN 
            ID(1:25)=0
            ITCLOD     = NINT(TCLOD)
 	   IF(ITCLOD /= 0) then
@@ -5466,8 +5464,7 @@ snow_check:   IF (QQS(I,J,L)>=QCLDmin) THEN
          ! CB top(height): derived from convective cloud top (pressure, same as #189 in CLDRAD.f)
          EGRID2 = SPVAL
          EGRID3 = SPVAL
-         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R' &
-            .OR. MODELNAME == 'RRFS') then
+         IF(MODELNAME == 'GFS' .OR. MODELNAME == 'FV3R')THEN 
             DO J=JSTA,JEND
                DO I=1,IM
                   EGRID2(I,J) = PBOT(I,J)
